@@ -4,7 +4,7 @@ source $HOME/.config/zsh/environment.zsh
 
 autoload -Uz promptinit
 promptinit
-prompt adam1
+prompt fire red
 
 setopt histignorealldups sharehistory
 # emacs keybindings
@@ -61,3 +61,13 @@ foreach file (`echo $sources`)
         source $file
     fi
 end
+
+autoload -U select-word-style
+select-word-style bash
+
+backward-kill-word(){
+#    WORDCHARS='*?_-[]~\!#$%^(){}<>|`@#$%^*()+:?' zle backward-kill-word
+    WORDCHARS='`~!@#$%^&*()-_=+[{]}\|;:",<.>/?'
+}
+
+zle -N bash-backward-kill-word
