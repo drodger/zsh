@@ -2,23 +2,49 @@
 
 source $HOME/.config/zsh/environment.zsh
 
-autoload -Uz promptinit vcs_info
+autoload -Uz compinit promptinit zcalc vcs_info
+compinit
 promptinit
-prompt fire red
 
-
-setopt histignorealldups sharehistory
-# emacs keybindings
-bindkey -e
+setopt AUTO_CD
+setopt CORRECT
+setopt AUTO_PUSHD
+setopt AUTO_NAME_DIRS
+setopt GLOB_COMPLETE
+setopt PUSHD_MINUS
+setopt append_history no_inc_append_history no_share_history histignorealldups
 setopt NO_HUP
-export EDITOR="nvim"
 setopt NO_BEEP
 setopt extendedglob
 
-autoload -Uz compinit
-compinit
+# emacs keybindings
+bindkey -e
+export EDITOR="nvim"
 
-setopt AUTO_CD
+# create a zkbd compatible hash;
+# to add other keys to this hash, see: man 5 terminfo
+typeset -A key
+
+key[Home]=${terminfo[khome]}
+key[End]=${terminfo[kend]}
+key[Insert]=${terminfo[kich1]}
+key[Delete]=${terminfo[kdch1]}
+key[Up]=${terminfo[kcuu1]}
+key[Down]=${terminfo[kcud1]}
+key[Left]=${terminfo[kcub1]}
+key[Right]=${terminfo[kcuf1]}
+key[PageUp]=${terminfo[kpp]}
+key[PageDown]=${terminfo[knp]}
+
+# setup key accordingly
+[[ -n "${key[Home]}"    ]]  && bindkey  "${key[Home]}"    beginning-of-line
+[[ -n "${key[End]}"     ]]  && bindkey  "${key[End]}"     end-of-line
+[[ -n "${key[Insert]}"  ]]  && bindkey  "${key[Insert]}"  overwrite-mode
+[[ -n "${key[Delete]}"  ]]  && bindkey  "${key[Delete]}"  delete-char
+[[ -n "${key[Up]}"      ]]  && bindkey  "${key[Up]}"      up-line-or-history
+[[ -n "${key[Down]}"    ]]  && bindkey  "${key[Down]}"    down-line-or-history
+[[ -n "${key[Left]}"    ]]  && bindkey  "${key[Left]}"    backward-char
+[[ -n "${key[Right]}"   ]]  && bindkey  "${key[Right]}"   forward-char
 
 zstyle ':completion:*' auto-description 'specify: %d'
 zstyle ':completion:*' completer _expand _complete _correct _approximate
@@ -74,9 +100,19 @@ backward-kill-word(){
 
 zle -N bash-backward-kill-word
 
-export PATH="/home/derek/.pyenv/bin:$PATH"
-eval "$(pyenv init -)"
-eval "$(pyenv virtualenv-init -)"
-
+prompt fade red
 NEWLINE=$'\n'
 PROMPT='$fg_bold['white']$bg[red]%n@%m%{$reset_color%} $fg_color['white']%@${NEWLINE}%B%~ %b$(git_super_status) %# '
+
+function psql() {
+    if [[ $# -eq 0 ]]; then
+        env psql --user postgres postgres
+    else
+        env psql --user postgres "$@"
+    fi
+}
+
+en_py3
+en_php
+en_apa
+
