@@ -2,9 +2,10 @@
 
 source $HOME/.config/zsh/environment.zsh
 
-autoload -Uz promptinit
+autoload -Uz promptinit vcs_info
 promptinit
 prompt fire red
+
 
 setopt histignorealldups sharehistory
 # emacs keybindings
@@ -53,6 +54,7 @@ sources+="$ZSH_CONFIG/completion.zsh"
 
 # fasd integration and config
 sources+="$ZSH_CONFIG/fasd.zsh"
+sources+="$ZSH_CONFIG/zsh-git-prompt/zshrc.sh"
 
 
 # try to include all sources
@@ -71,3 +73,10 @@ backward-kill-word(){
 }
 
 zle -N bash-backward-kill-word
+
+export PATH="/home/derek/.pyenv/bin:$PATH"
+eval "$(pyenv init -)"
+eval "$(pyenv virtualenv-init -)"
+
+NEWLINE=$'\n'
+PROMPT='$fg_bold['white']$bg[red]%n@%m%{$reset_color%} $fg_color['white']%@${NEWLINE}%B%~ %b$(git_super_status) %# '
