@@ -79,4 +79,4 @@ eval "$(pyenv init -)"
 eval "$(pyenv virtualenv-init -)"
 
 NEWLINE=$'\n'
-PROMPT='$fg_bold['white']$bg[red]%n@%m%{$reset_color%} $fg_color['white']%@${NEWLINE}%B%~ %b$(git_super_status) %# '
+PROMPT='$fg_bold['white']$bg[red]%n@%m%{$reset_color%} $fg_color['white']%@${NEWLINE}$fg_bold['yellow']%~ %b$(git_super_status) '
