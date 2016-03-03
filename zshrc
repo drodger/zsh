@@ -64,15 +64,17 @@ foreach file (`echo $sources`)
     fi
 end
 
-autoload -U select-word-style
-select-word-style bash
-
-backward-kill-word(){
-#    WORDCHARS='*?_-[]~\!#$%^(){}<>|`@#$%^*()+:?' zle backward-kill-word
-    WORDCHARS='`~!@#$%^&*()-_=+[{]}\|;:",<.>/?'
+x-bash-backward-kill-word(){
+    WORDCHARS='' zle backward-kill-word
 }
+zle -N x-bash-backward-kill-word
+bindkey '^W' x-bash-backward-kill-word
 
-zle -N bash-backward-kill-word
+x-backward-kill-word(){
+    WORDCHARS='*?_-[]~\!#$%^(){}<>|`@#$%^*()+:?' zle backward-kill-word
+}
+zle -N x-backward-kill-word
+bindkey '\e^?' x-backward-kill-word
 
 export PATH="/home/derek/.pyenv/bin:$PATH"
 eval "$(pyenv init -)"
