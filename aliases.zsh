@@ -14,3 +14,6 @@ alias dev='cd /var/www/erezlife/development'
 alias en_py3='source /opt/rh/rh-python34/enable'
 alias en_php='source /opt/rh/rh-php56/enable'
 alias en_apa='source /opt/rh/httpd24/enable'
+
+alias fl='ssh derek@florida.erezlife.com'
+alias to='ssh derek@toronto.erezlife.com'
